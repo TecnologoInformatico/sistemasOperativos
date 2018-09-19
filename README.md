@@ -17,3 +17,5 @@ El S.O. proporciona los medios para hacer un uso adecuado de los recursos del si
 - [Planificación de la CPU](./secciones/04_planificacionDeLaCPU.md)
 - [Memoria Principal](./secciones/05_MemoriaPrincipal.md)
 - [Memoria Virtual](./secciones/06_MemoriaVirtual.md)
+
+Notas basadas en el libro Fundamentos de Sistemas Operativos Silberschatz, Galvin & Gagne

@@ -312,6 +312,8 @@ A la tarea de cambiar un proceso por otro en el procesador se le denomina cambio
 - Cargar el estado del proceso asignado a la CPU a partir de su PCB.
 - Cambiar el estado del proceso nuevo a ejecutando.
 
+![Cambio de contexto](./img/02_procesoCambioDeContexto.png)
+
 El tiempo de cambio de contexto es sobrecarga, no se realiza trabajo útil mientras tanto, y que tanto demore depende del soporte de hardware.
 
 ### Comunicación entre procesos
@@ -319,6 +321,8 @@ El tiempo de cambio de contexto es sobrecarga, no se realiza trabajo útil mient
 Procesos que se ejecutan concurrentemente pueden ser procesos independientes o cooperativos. Un proceso es cooperativo si puede afectar o verse afectado por los restantes procesos que se ejecuten en el sistema, y es independiente si no. Así, cualquier proceso que comparta datos con otro será cooperativo.
 
 #### cooperación de procesos
+
+![Cooperación de procesos](./img/02_procesoComunicacion.png)
 
 ##### Compartir información
 
@@ -374,6 +378,8 @@ Otro de los beneficios consiste en poder planificar diferente a la estrategia de
 
 ##### Muchos a uno (Many to one)
 
+![Hilos en dos niveles](./img/03_hilosMuchosAUno.png)
+
 El modelo asigna múltiples hilos de usuario a un hilo del kernel.
 
 Este caso se corresponde a los hilos implementados a nivel de usuario, ya que el sistema solo reconoce un hilo de control para el proceso.
@@ -382,14 +388,22 @@ Tiene como inconveniente que si un hilo se bloquea, todo el proceso se bloquea. 
 
 ##### Uno a uno (one to one)
 
+![Hilos uno a uno](./img/03_hilosUnoAUno.png)
+
 El modelo asigna cada hilo de usuario a un hilo del kernel. Proporciona una mayor concurrencia que el modelo anterior, permitiendo que se ejecute otro hilo si uno se bloqueó.  
 Tiene como inconveniente que cada vez que se crea un hilo a nivel de usuario, se crea un hilo a nivel del kernel, y la cantidad de hilos a nivel del kernel están restringidos en la mayoría de los sistemas.
 
 ##### Muchos a muchos (many to many)
 
+![many to many](./img/03_hilosMuchosAMuchos.png)
+
 El modelo multiplexa muchos hilos de usuario sobre un número menor o igual de hilos del kernel. Cada proceso tiene asignado un conjunto de hilos de kernel,independientemente de la cantidad de hilos de usuario que haya creado.
 
 No posee ninguno de los inconvenientes de los dos modelos anteriores, ya que saca lo mejor de cada uno. El usuario puede crear tantos hilos como necesite y los hilos de kernel pueden ejecutar en paralelo. Asimismo, cuando un hilo se bloquea, el kernel puede planificar otro hilo para su ejecución. Entonces, el planificador a nivel de usuario asigna los hilos de usuario a los hilos de kernel, y el planificador a nivel de kernel asigna los hilos de kernel a los procesadores.
+
+##### Dos niveles
+
+![Hilos en dos niveles](./img/03_hilosDosNiveles.png)
 
 ## Planificación de la CPU
 
@@ -398,6 +412,8 @@ La planificación es la base para lograr la multiprogramación. En un sistema mu
 ### Tipos de procesos
 
 Los procesos tienden a tener ráfagas de ejecución (CPU-burst) y ráfagas de espera de operaciones de E/S (I/O burst).
+
+![Hilos en dos niveles](./img/04_rafagas.png)
 
 #### Procesos CPU-bound
 
@@ -557,6 +573,8 @@ Al conjunto de todas las direcciones lógicas de un programa se le denomina espa
 
 La correspondencia entre direcciones virtuales y físicas en tiempo de ejecución es establecida por un dispositivo de hardware que se denomina **unidad de gestión de memoria** (*MMU Memory Managment Unit*).
 
+![Relocalización MMU](./img/05_relocalizacionMMU.png)
+
 El registro de reubicación suma a todas las direcciones generadas por un proceso de usuario en el momento de enviarlas a memoria, para así generar las direcciones físicas correspondientes. Por ejemplo, si el registro de reubicación se encuentra en la dirección 14000, un acceso a la ubicación 346 se convertirá en la ubicación 14000+346 = 14346.
 
 Entonces, el usuario solo verá direcciones entre 0 y max (las direcciones lógicas), mientras que las direcciones físicas estarán entre 0+R y R+max.
@@ -583,6 +601,8 @@ Estudios de simulación han mostrado que first-fit y best-fit lograron mejores r
 
 Un proceso debe estar en memoria principal para ser ejecutado. Sin embargo, los procesos pueden ser intercambiados temporalmente, sacándolos de memoria y almacenándolos en el disco, y volviéndolos a llevar a memoria para continuar su ejecución.
 
+![Swapping](./img/05_swap.png)
+
 Al mecanismo de llevar un proceso desde memoria principal a disco se le denomina **swap-out**. Al inverso se le denomina **swapin**. El mayor tiempo consumido en el swaping es el tiempo de transferencia.
 
 ### Protección de memoria
@@ -594,6 +614,8 @@ Los bits se pueden utilizar para indicar distintas situaciones: lectura-escritur
 
 La memoria virtual permite ejecutar procesos que requieren mas memoria que la disponible en el sistema, manteniendo en memoria principal solo aquella memoria que el proceso este utilizando y el resto en disco. De esta forma el usuario ya no debe preocuparse por las limitaciones de memoria física.
 
+![Memoria Virtual](./img/06_memoriaVirtual.png)
+
 Cada proceso tiene su propio espacio de direccionamiento virtual (o lógico) y La MMU es la encargada de mapear las direcciones virtuales (o lógicas) a físicas.
 
 ### Implementación
@@ -601,6 +623,8 @@ Cada proceso tiene su propio espacio de direccionamiento virtual (o lógico) y L
 La implementación de memoria virtual es realizada a través de la técnica de paginación bajo demanda. En la paginación bajo demanda los procesos residen en un dispositivo de disco y son puestos en memoria principal cuando es necesario cargarlos para ejecutar.
 
 La carga del proceso en memoria no es total, sino que implementa un cargador “perezoso” (lazy swapper), que cargará las páginas según se vayan necesitando.
+
+![paginación](./img/05_paginacion.png)
 
 Utilizar un esquema de este tipo requiere el conocimiento de las páginas que están activas en memoria. Para ello se utiliza el valid-invalid bit, que consiste en agregar a la tabla de páginas un nuevo campo (bit de validez), que indique para cada entrada, si la página se encuentra o no en memoria. Al inicio, la tabla de páginas indicará que ninguna página está en memoria (todos los bits de validez se encontrarán en i (invalid)).
 
