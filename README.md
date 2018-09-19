@@ -7,7 +7,7 @@ Un sistema informático puede dividirse en cuatro componentes:
 - los programas de aplicación
 - los usuarios
 
-El Sistema operativo controla y coordina el uso del hardware entre los diversos programas de aplicación por parte de los distintos usuarios. 
+El Sistema operativo controla y coordina el uso del hardware entre los diversos programas de aplicación por parte de los distintos usuarios.
 
 El S.O. proporciona los medios para hacer un uso adecuado de los recursos del sistema durante su funcionamiento.
 
